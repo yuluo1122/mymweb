@@ -1,22 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../css/index.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>主页</title>
+    <!--<meta name="viewport" content="initial-scale=1, maximum-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    @@include('./common/style.html');
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-@@include("./common/header.html")
-<div class="container">
+<div class="page-group">
+    <div class="page page-current">
+        <!--搜索框-->
+        @@include('./common/searchbar.html');
 
+        <!--工具栏-->
+        @@include('./common/footer.html');
+
+        <div class="content" id="content">
+            <!--轮播图-->
+            <div class="swiper-container">
+                <div class="swiper-wrapper banner_Tpl"></div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <!-- 菜单 -->
+            <div class="content-padded menu menuInfo"></div>
+
+            <!--列表-->
+            <div class="listinfo"></div>
+        </div>
+
+    </div>
 </div>
-@@include("./common/footer.html", {
-    "footer1": "index-footer1",
-    "footer2": "index-footer2",
-    "footer": {
-        "footer1": "index-footer-footer1",
-        "footer2": "index-footer-footer2"
-    }
-})
+
+<!--轮播图template模板-->
+<script id="banner_Tpl" type="text/template">
+    {{each list value}}
+    <div class="swiper-slide">
+        <a href="javascript:;">
+            <img src="{{value.image_url}}" alt="">
+        </a>
+    </div>
+    {{/each}}
+</script>
+
+<!--菜单模板-->
+<script id="menu_tpl" type="text/template">
+    <div class="row">
+    {{each list value index}}
+        <div class="col-20">
+            <a href="/category/category.html">
+                <div>
+                    <img src="{{value.img}}">
+                </div>
+                <div>{{value.name}}</div>
+            </a>
+        </div>
+    {{if index === 4}}
+    </div>
+    <div class="row">
+    {{/if}}
+    {{/each}}
+    </div>
+</script>
+
+<!--列表模板-->
+<script id="list_tpl" type="text/template">
+    {{each list value index}}
+    <div class="content-padded list-title">
+        <img src="{{value.group_img}}">
+    </div>
+    <div class="content-padded list-item">
+        <div class="row">
+        {{each value.goods value index}}
+        <div class="col-50">
+            <div class="pic">
+                <img src="{{value.goods_big_logo}}">
+            </div>
+            <div class="name">{{value.goods_name}}</div>
+            <div class="price">
+                <span>¥ {{value.goods_price}}</span>
+                <a href="/goods-list.html?cid={{value.cat_id}}" class="button external">找相似</a>
+            </div>
+        </div>
+            {{if value == 1}}
+            </div>
+            <div class="row">
+            {{/if}}
+        {{/each}}
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<!--引入共同js-->
+@@include('./common/script.html');
+<script type="text/javascript" src="./js/index.js"></script>
+
 </body>
 </html>
